@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Denials Followup</title>
+  <style>
+    /* Reset default styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-image: url('Healthcareimage.jpg');
+      background-size: cover;
+    }
+
+    /* Header style */
+    header {
+      background-color: rgb(72, 61, 139);
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .site-title {
+      font-size: 24px;
+      color: white;
+    }
+
+    .user-name {
+      font-size: 19px;
+      color: white;
+      
+
+    }
+
+    /* Main content centered */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* Move to top but leave space */
+      padding-top: 100px; /* Push down so dropdown has space below */
+    }
+
+    .dropdown-container {
+      text-align: center;
+    }
+
+    .Denials {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    button {
+      padding: 9px 10px;
+      font-size: 15px;
+      cursor: pointer;
+      background-color: white;
+    }
+
+    /* Footer style */
+    footer {
+      background-color: rgb(72, 61, 139);
+      color: white;
+      text-align: center;
+      font-size: 24px;
+      padding: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="site-title"><b>Denials Followup</b></div>
+    <div class="user-name"><img src="Modmed logo.jpg" alt="ModMed Logo" style="height: 90px;"></div>
+  </header>
+
+  <main>
+    <div class="dropdown-container">
+      <label for="options" class="Denials"><b>Select Denial:</b></label>
+      <select id="options" name="options">
+        <option value="">-- Select an option --</option>
+        <option value="Authorization_Denial.html">Claim Denied as Missing/Invalid Authorization</option>
+        <option value="noncovered.html">Claim Denied as Non-Covered Service</option>
+        <option value="modifier.html">Claim Denied as Missing/Invalid Modifier</option>
+        <option value="patient.html">Claim Denied as Patient Not Found</option>
+        <option value="patient.html">Claim Denied for Medical Records</option>
+        <option value="patient.html">Claim Denied as Bundled Service</option>
+        <option value="patient.html">Claim Denied as Duplicate</option>
+        <option value="patient.html">Claim Denied as Missing/Invalid Diagnosis</option>
+        <option value="patient.html">Claim Denied for TFL</option>
+      </select>
+      <br>
+      <button class="button" onclick="navigate()">Submit</button>
+    </div>
+  </main>
+
+  <footer><b>Create Customer Delight</b></footer>
+
+  <script>
+    function navigate() {
+      const selectedValue = document.getElementById("options").value;
+      if (selectedValue) {
+        window.location.href = selectedValue;
+      } else {
+        alert("Please select a denial reason before continuing.");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Missing/Invalid Authorization</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-image: url('Healthcareimage.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    header, footer {
+      background-color: rgb(72, 61, 139);
+      color: white;
+      text-align: center;
+      font-weight: bold;
+    }
+    header { padding: 10px; font-size: 24px; }
+    footer { padding: 10px 0; font-size: 20px; }
+    main { flex: 1; display: flex; justify-content: left; align-items: left; }
+    .content-box { padding: 30px; text-align: left; }
+    .content-box p { font-size: 18px; }
+    .questions {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: rgba(255,255,255,0.8);
+      border-radius: 8px;
+      display: none;
+    }
+    .questions label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .questions select {
+      margin-left: 10px;
+    }
+    .question-item {
+      display: none;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .info-box {
+      background-color: white;
+      border: 1px solid white;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Missing/Invalid Authorization</header>
+
+  <main>
+    <div class="content-box">
+      <p><b>Authorization:</b></p><br />
+      <p>
+        Authorization has to be obtained before performing a specific service to the patient provided that service requires which is
+        being performed requires authorization on the grounds of Patient Plan, Insurance Policy
+        and/or Provider network. Failing to obtain an authorization when required would result in this denial.
+      </p><br />
+
+      <label for="options" class="POS"><b>Select the POS:</b></label>
+      <select id="options" name="options">
+        <option value="">-- Select an option --</option>
+        <option value="POS11">POS 11 (Doctor's Office)</option>
+        <option value="POS12">POS 12 (Home)</option>
+        <option value="POS21">POS 21 (Inpatient Hospital)</option>
+        <option value="POS22">POS 22 (Outpatient Hospital)</option>
+        <option value="POS23">POS 23 (Emergency Room)</option>
+        <option value="POS24">POS 24 (Ambulatory Surgical Center)</option>
+      </select>
+
+      <!-- POS 11 Questions -->
+      <div class="questions" id="pos11Questions">
+        <div class="question-item" style="display:flex;">
+          <label>Check whether the Provider is OON?</label>
+          <select name="q1">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- POS 21 Questions -->
+      <div class="questions" id="pos21Questions">
+        <div class="question-item" style="display:flex;">
+          <label>Check whether the Claim billed with the Authorization?</label>
+          <select id="claimAuthSelect" name="q2">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <!-- Follow-up for Yes -->
+        <div class="question-item" id="followUpYes">
+          <label>Check If the Hospital Claim is Paid with the Authorization?</label>
+          <select id="hospitalClaimPaid" name="qYes">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <!-- Info box if Hospital Claim Paid is No -->
+        <div class="info-box" id="hospitalClaimNotPaidInfo">
+          As the Hospital Claim was Paid without Authorization, Need to Reprocess the Claim. (Authorization not required)
+          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
+            <span><strong>Status Code:</strong> Auth</span>
+            <span><strong>Action Code:</strong> Reprocess</span>
+          </div>
+        </div>
+
+        <!-- Yes branch follow-up -->
+        <div class="question-item" id="paidYesFollowUp">
+          <label>Validate whether the billed Auth and the Hospital Claim Auth are same?</label>
+          <select id="authSameSelect" name="paidYesQ">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <!-- Info box if Yes -->
+        <div class="info-box" id="authSameInfo">
+          As the billed Authorization matches the Hospital Claim Authorization. Need to Reprocess the Claim.
+          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
+            <span><strong>Status Code:</strong> Auth</span>
+            <span><strong>Action Code:</strong> Reprocess</span>
+          </div>
+        </div>
+
+        <!-- Info box if No -->
+        <div class="info-box" id="authNotSameInfo">
+          Update the Valid Auth which Hospital Claim processed and Refile the Claim. 
+          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
+            <span><strong>Status Code:</strong> Auth</span>
+            <span><strong>Action Code:</strong> CC-E</span>
+          </div>
+        </div>
+
+        <!-- Follow-up for No claim billed -->
+        <div class="question-item" id="followUpNo">
+          <label>Check whether the Hospital Claim is on File?</label>
+          <select id="hospitalClaimOnFile" name="qNo">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <!-- Info box if Hospital Claim NOT on File -->
+        <div class="info-box" id="hospitalClaimNotOnFileInfo">
+          As the Hospital Claim is not on file, whereas our claim billed with the POS 21. Need Coding Review to validate the POS. 
+          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
+            <span><strong>Status Code:</strong> Auth</span>
+            <span><strong>Action Code:</strong> Coding</span>
+          </div>
+        </div>
+
+        <!-- New follow-up question for Yes to Hospital Claim on File -->
+        <div class="question-item" id="hospitalClaimApprovedQuestion" style="display:none; align-items: center; margin-bottom: 10px;">
+          <label>Check If the Hospital Claim is Paid with the Authorization?</label>
+          <select id="hospitalClaimApprovedSelect" name="hospitalClaimApproved">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <!-- Follow-up question if abc = Yes -->
+        <div class="question-item" id="abcFollowUpQuestion" style="display:none; align-items: center; margin-bottom: 10px;">
+          <label>Validate whether the billed Auth and the Hospital Claim Auth are same?</label>
+          <select id="abcFollowUpSelect" name="abcFollowUp">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <!-- Info box if abc = No -->
+        <div class="info-box" id="abcNoInfo">
+          As the Hospital Claim was Paid without Authorization, Need to Reprocess the Claim. (Authorization not required)
+          
+          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
+            <span><strong>Status Code:</strong> Auth</span>
+            <span><strong>Action Code:</strong> Reprocess</span>
+          </div>
+        </div>
+
+        <!-- Info box if xyz = Yes -->
+        <div class="info-box" id="xyzYesInfo">
+          As the billed Authorization matches the Hospital Claim Authorization. Need to Reprocess the Claim.
+          
+          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
+            <span><strong>Status Code:</strong> Auth</span>
+            <span><strong>Action Code:</strong> Reprocess</span>
+          </div>
+        </div>
+
+        <!-- Info box if xyz = No -->
+        <div class="info-box" id="xyzNoInfo">
+          Update the Valid Auth which Hospital Claim processed and Refile the Claim.
+          
+          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
+            <span><strong>Status Code:</strong> Auth</span>
+            <span><strong>Action Code:</strong> CC-E</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>Create Customer Delight</footer>
+
+  <script>
+    const posDropdown = document.getElementById("options");
+    const pos11Section = document.getElementById("pos11Questions");
+    const pos21Section = document.getElementById("pos21Questions");
+
+    const claimAuthSelect = document.getElementById("claimAuthSelect");
+    const followUpYes = document.getElementById("followUpYes");
+    const followUpNo = document.getElementById("followUpNo");
+
+    const hospitalClaimPaid = document.getElementById("hospitalClaimPaid");
+    const hospitalClaimNotPaidInfo = document.getElementById("hospitalClaimNotPaidInfo");
+    const paidYesFollowUp = document.getElementById("paidYesFollowUp");
+
+    const authSameSelect = document.getElementById("authSameSelect");
+    const authSameInfo = document.getElementById("authSameInfo");
+    const authNotSameInfo = document.getElementById("authNotSameInfo");
+
+    const followUpNoSelect = document.getElementById("hospitalClaimOnFile");
+    const hospitalClaimNotOnFileInfo = document.getElementById("hospitalClaimNotOnFileInfo");
+
+    const hospitalClaimApprovedQuestion = document.getElementById("hospitalClaimApprovedQuestion");
+    const hospitalClaimOnFileSelect = document.getElementById("hospitalClaimOnFile");
+
+    const abcFollowUpQuestion = document.getElementById("abcFollowUpQuestion");
+    const abcFollowUpSelect = document.getElementById("abcFollowUpSelect");
+    const abcNoInfo = document.getElementById("abcNoInfo");
+    const hospitalClaimApprovedSelect = document.getElementById("hospitalClaimApprovedSelect");
+
+    const xyzYesInfo = document.getElementById("xyzYesInfo");
+    const xyzNoInfo = document.getElementById("xyzNoInfo");
+
+    function hideAllPOS21Followups() {
+      followUpYes.style.display = "none";
+      followUpNo.style.display = "none";
+      paidYesFollowUp.style.display = "none";
+      hospitalClaimNotPaidInfo.style.display = "none";
+      authSameInfo.style.display = "none";
+      authNotSameInfo.style.display = "none";
+      hospitalClaimNotOnFileInfo.style.display = "none";
+      hospitalClaimApprovedQuestion.style.display = "none";
+      abcFollowUpQuestion.style.display = "none";
+      abcNoInfo.style.display = "none";
+      xyzYesInfo.style.display = "none";
+      xyzNoInfo.style.display = "none";
+
+      hospitalClaimPaid.value = "";
+      authSameSelect.value = "";
+      followUpNoSelect.value = "";
+      hospitalClaimApprovedQuestion.querySelector("select").value = "";
+      abcFollowUpSelect.value = "";
+      hospitalClaimApprovedSelect.value = "";
+    }
+
+    posDropdown.addEventListener("change", function () {
+      pos11Section.style.display = this.value === "POS11" ? "block" : "none";
+      pos21Section.style.display = this.value === "POS21" ? "block" : "none";
+      claimAuthSelect.value = "";
+      hideAllPOS21Followups();
+    });
+
+    claimAuthSelect.addEventListener("change", function () {
+      hideAllPOS21Followups();
+      if (this.value === "Yes") {
+        followUpYes.style.display = "flex";
+      } else if (this.value === "No") {
+        followUpNo.style.display = "flex";
+      }
+    });
+
+    hospitalClaimPaid.addEventListener("change", function () {
+      hospitalClaimNotPaidInfo.style.display = "none";
+      paidYesFollowUp.style.display = "none";
+      authSameInfo.style.display = "none";
+      authNotSameInfo.style.display = "none";
+      authSameSelect.value = "";
+      if (this.value === "Yes") {
+        paidYesFollowUp.style.display = "flex";
+      } else if (this.value === "No") {
+        hospitalClaimNotPaidInfo.style.display = "block";
+      }
+    });
+
+    authSameSelect.addEventListener("change", function () {
+      authSameInfo.style.display = "none";
+      authNotSameInfo.style.display = "none";
+      if (this.value === "Yes") {
+        authSameInfo.style.display = "block";
+      } else if (this.value === "No") {
+        authNotSameInfo.style.display = "block";
+      }
+    });
+
+    hospitalClaimOnFileSelect.addEventListener("change", function () {
+      hospitalClaimNotOnFileInfo.style.display = "none";
+      hospitalClaimApprovedQuestion.style.display = "none";
+      abcFollowUpQuestion.style.display = "none";
+      abcNoInfo.style.display = "none";
+      xyzYesInfo.style.display = "none";
+      xyzNoInfo.style.display = "none";
+
+      if (this.value === "No") {
+        hospitalClaimNotOnFileInfo.style.display = "block";
+      } else if (this.value === "Yes") {
+        hospitalClaimApprovedQuestion.style.display = "flex";
+      }
+    });
+
+    hospitalClaimApprovedSelect.addEventListener("change", function() {
+      abcFollowUpQuestion.style.display = "none";
+      abcNoInfo.style.display = "none";
+      xyzYesInfo.style.display = "none";
+      xyzNoInfo.style.display = "none";
+      abcFollowUpSelect.value = "";
+
+      if(this.value === "Yes") {
+        abcFollowUpQuestion.style.display = "flex";
+      } else if(this.value === "No") {
+        abcNoInfo.style.display = "block";
+      }
+    });
+
+    abcFollowUpSelect.addEventListener("change", function() {
+      xyzYesInfo.style.display = "none";
+      xyzNoInfo.style.display = "none";
+
+      if(this.value === "Yes") {
+        xyzYesInfo.style.display = "block";
+      } else if(this.value === "No") {
+        xyzNoInfo.style.display = "block";
+      }
+    });
+  </script>
+
+</body>
+</html>
