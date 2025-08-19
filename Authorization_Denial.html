@@ -18,20 +18,68 @@
     header, footer {
       background-color: rgb(72, 61, 139);
       color: white;
-      text-align: center;
       font-weight: bold;
+      font-family: 'Times New Roman', Times, serif;
+      position: fixed;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
     }
-    header { padding: 10px; font-size: 24px; }
-    footer { padding: 10px 0; font-size: 20px; }
-    main { flex: 1; display: flex; justify-content: left; align-items: left; }
-    .content-box { padding: 30px; text-align: left; }
+    header {
+      top: 0;
+      justify-content: space-between;
+      padding: 10px 20px;
+      font-size: 24px;
+    }
+    header img {
+      height: 60px;
+      width: 150px;
+    }
+    footer {
+      bottom: 0;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 20px;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: left;
+      align-items: flex-start;
+      padding-top: 70px;
+      padding-bottom: 50px;
+    }
+    .content-box {
+      padding: 20px;
+      text-align: left;
+      line-height: 1.2;
+    }
     .content-box p { font-size: 18px; }
+    .text-background {
+      background-color: rgb(247, 217, 244);
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 15px;
+      margin-bottom: 15px; 
+      font-family: 'Times New Roman', Times, serif;
+      word-spacing: 2px;
+      line-height: 1.6;
+      font-size: 16px;
+      border-style: solid;
+    }
     .questions {
       margin-top: 20px;
       padding: 15px;
-      background-color: rgba(255,255,255,0.8);
+      background-color: rgb(247, 231, 245);
       border-radius: 8px;
-      display: none;
+      display: block;
+      border-style: outset;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 16px;
     }
     .questions label {
       font-weight: bold;
@@ -41,355 +89,1509 @@
       margin-left: 10px;
     }
     .question-item {
-      display: none;
+      display: flex;
       align-items: center;
       margin-bottom: 10px;
     }
-    .info-box {
-      background-color: white;
-      border: 1px solid white;
+    .intro-statement {
+      font-style: italic;
+      font-size: 16px;
+      margin-top: 15px;
+      margin-bottom: 15px;
       padding: 10px;
-      border-radius: 6px;
+      border-radius: 8px;
+    }
+    .hidden { display: none; }
+    .scroll-box {
+      max-height: 150px;
+      overflow-y: auto;
+      background-color: rgb(247, 231, 245);
+      border-radius: 8px;
+      border-style: outset;
+      padding: 10px;
       margin-top: 10px;
-      display: none;
+      font-family: 'Times New Roman', Times, serif;
+    }
+    .scroll-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .info-box {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: rgb(247, 231, 245);
+      border-radius: 8px;
+      border-style: outset;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .info-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+    .codes {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .codes p {
+      margin: 0;
     }
   </style>
 </head>
 <body>
 
-  <header>Missing/Invalid Authorization</header>
+  <header>
+    <span>Missing/Invalid Authorization</span>
+    <img src="Modmed logo.jpg" alt="Logo">
+  </header>
 
   <main>
     <div class="content-box">
-      <p><b>Authorization:</b></p><br />
-      <p>
-        Authorization has to be obtained before performing a specific service to the patient provided that service requires which is
-        being performed requires authorization on the grounds of Patient Plan, Insurance Policy
-        and/or Provider network. Failing to obtain an authorization when required would result in this denial.
-      </p><br />
-
-      <label for="options" class="POS"><b>Select the POS:</b></label>
-      <select id="options" name="options">
-        <option value="">-- Select an option --</option>
-        <option value="POS11">POS 11 (Doctor's Office)</option>
-        <option value="POS12">POS 12 (Home)</option>
-        <option value="POS21">POS 21 (Inpatient Hospital)</option>
-        <option value="POS22">POS 22 (Outpatient Hospital)</option>
-        <option value="POS23">POS 23 (Emergency Room)</option>
-        <option value="POS24">POS 24 (Ambulatory Surgical Center)</option>
-      </select>
-
-      <!-- POS 11 Questions -->
-      <div class="questions" id="pos11Questions">
-        <div class="question-item" style="display:flex;">
-          <label>Check whether the Provider is OON?</label>
-          <select id="providerOONSelect" name="q1">
-            <option value="">-- Select an option --</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-
-        <!-- Follow-up if Yes -->
-        <div class="question-item" id="pos11YesFollowUp">
-          <label>Check whether the claim submitted with the Authorization?</label>
-          <select>
-            <option value="">-- Select an option --</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-
-        <!-- Follow-up if No -->
-        <div class="question-item" id="pos11NoFollowUp">
-          <label>Check whether the rendered service require Authorization?</label>
-          <select>
-            <option value="">-- Select an option --</option>
-            <option value="Obtained">Yes</option>
-            <option value="Not Obtained">No</option>
-          </select>
-        </div>
+      <p><b>Authorization:</b></p>
+      <div class="text-background">
+        <p>
+          Authorization in medical billing refers to the process of obtaining prior approval from a payer, typically an insurance company, before a healthcare service is provided. This ensures that the service will be covered under the patient's insurance plan. The authorization process involves checking the medical necessity of the service and verifying that the provider is within the insurance network. Obtaining authorization can help prevent denied claims and ensure that healthcare providers receive payment for their services.
+        </p>
+        <br />
       </div>
 
-      <!-- POS 21 Questions -->
+      <div class="intro-statement"><b>
+        Follow the steps outlined below to resolve the Denial:
+      </b></div>
+
+     
       <div class="questions" id="pos21Questions">
-        <div class="question-item" style="display:flex;">
-          <label>Check whether the Claim billed with the Authorization?</label>
-          <select id="claimAuthSelect" name="q2">
+        <div class="question-item">
+          <label>Check whether the Claim billed with the Authorization ?</label>
+          <select id="claimAuthSelect">
             <option value="">-- Select an option --</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
-        </div>
-
-        <!-- Follow-up for Yes -->
-        <div class="question-item" id="followUpYes">
-          <label>Check If the Hospital Claim is Paid with the Authorization?</label>
-          <select id="hospitalClaimPaid" name="qYes">
-            <option value="">-- Select an option --</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-
-        <!-- Info box if Hospital Claim Paid is No -->
-        <div class="info-box" id="hospitalClaimNotPaidInfo">
-          As the Hospital Claim was Paid without Authorization, Need to Reprocess the Claim. (Authorization not required)
-          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
-            <span><strong>Status Code:</strong> Auth</span>
-            <span><strong>Action Code:</strong> Reprocess</span>
-          </div>
-        </div>
-
-        <!-- Yes branch follow-up -->
-        <div class="question-item" id="paidYesFollowUp">
-          <label>Validate whether the billed Auth and the Hospital Claim Auth are same?</label>
-          <select id="authSameSelect" name="paidYesQ">
-            <option value="">-- Select an option --</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-
-        <!-- Info box if Yes -->
-        <div class="info-box" id="authSameInfo">
-          As the billed Authorization matches the Hospital Claim Authorization. Need to Reprocess the Claim.
-          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
-            <span><strong>Status Code:</strong> Auth</span>
-            <span><strong>Action Code:</strong> Reprocess</span>
-          </div>
-        </div>
-
-        <!-- Info box if No -->
-        <div class="info-box" id="authNotSameInfo">
-          Update the Valid Auth which Hospital Claim processed and Refile the Claim. 
-          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
-            <span><strong>Status Code:</strong> Auth</span>
-            <span><strong>Action Code:</strong> CC-E</span>
-          </div>
-        </div>
-
-        <!-- Follow-up for No claim billed -->
-        <div class="question-item" id="followUpNo">
-          <label>Check whether the Hospital Claim is on File?</label>
-          <select id="hospitalClaimOnFile" name="qNo">
-            <option value="">-- Select an option --</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-
-        <!-- Info box if Hospital Claim NOT on File -->
-        <div class="info-box" id="hospitalClaimNotOnFileInfo">
-          As the Hospital Claim is not on file, whereas our claim billed with the POS 21. Need Coding Review to validate the POS. 
-          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
-            <span><strong>Status Code:</strong> Auth</span>
-            <span><strong>Action Code:</strong> Coding</span>
-          </div>
-        </div>
-
-        <!-- New follow-up question for Yes to Hospital Claim on File -->
-        <div class="question-item" id="hospitalClaimApprovedQuestion" style="display:none; align-items: center; margin-bottom: 10px;">
-          <label>Check If the Hospital Claim is Paid with the Authorization?</label>
-          <select id="hospitalClaimApprovedSelect" name="hospitalClaimApproved">
-            <option value="">-- Select an option --</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-
-        <!-- Follow-up question if abc = Yes -->
-        <div class="question-item" id="abcFollowUpQuestion" style="display:none; align-items: center; margin-bottom: 10px;">
-          <label>Validate whether the billed Auth and the Hospital Claim Auth are same?</label>
-          <select id="abcFollowUpSelect" name="abcFollowUp">
-            <option value="">-- Select an option --</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-
-        <!-- Info box if abc = No -->
-        <div class="info-box" id="abcNoInfo">
-          As the Hospital Claim was Paid without Authorization, Need to Reprocess the Claim. (Authorization not required)
-          
-          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
-            <span><strong>Status Code:</strong> Auth</span>
-            <span><strong>Action Code:</strong> Reprocess</span>
-          </div>
-        </div>
-
-        <!-- Info box if xyz = Yes -->
-        <div class="info-box" id="xyzYesInfo">
-          As the billed Authorization matches the Hospital Claim Authorization. Need to Reprocess the Claim.
-          
-          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
-            <span><strong>Status Code:</strong> Auth</span>
-            <span><strong>Action Code:</strong> Reprocess</span>
-          </div>
-        </div>
-
-        <!-- Info box if xyz = No -->
-        <div class="info-box" id="xyzNoInfo">
-          Update the Valid Auth which Hospital Claim processed and Refile the Claim.
-          
-          <div style="margin-top: 10px; display: flex; gap: 20px; align-items: center;">
-            <span><strong>Status Code:</strong> Auth</span>
-            <span><strong>Action Code:</strong> CC-E</span>
-          </div>
         </div>
       </div>
+
+     
+      <div class="questions hidden" id="yesFollowup">
+        <div class="question-item">
+          <label>Check with the Payer/System whether the Authorization is Valid for the Rendered Service ?</label>
+          <select id="bSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+     
+      <div class="questions hidden" id="noFollowup">
+        <div class="question-item">
+          <label>Check in the System for the valid Authorization ?</label>
+          <select id="oSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="questions hidden" id="bNoFollowup">
+        <div class="question-item">
+          <label>Check in the System for the valid Authorization ?</label>
+          <select id="cSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="questions hidden" id="cFollowup">
+        <div class="question-item">
+          <label>Check with the Payer Representative if they can Reprocess the claim with the valid Authorization ?</label>
+          <select id="dSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="questions hidden" id="oYesFollowup">
+        <div class="question-item">
+          <label>Check with the Payer Representative if they can Reprocess the claim with the valid Authorization ?</label>
+          <select id="pSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+     
+      <div class="scroll-box hidden" id="oNoScrollBox">
+        <div class="scroll-title">
+          <span>Select the POS:</span>
+          <select id="posSelect">
+            <option value="">-- Select POS --</option>
+            <option value="POS 11">POS 11</option>
+            <option value="POS 21/22">POS 21/22</option>
+            <option value="POS 23">POS 23</option>
+          </select>
+        </div>
+      </div>
+
+     
+      <div class="questions hidden" id="pos11Question">
+        <div class="question-item">
+          <label>Check whether the Provider is OON(Out-Of-Network) ?</label>
+          <select id="pos11Select1">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="questions hidden" id="fNoFollowup">
+        <div class="question-item">
+          <label>Check whether the Rendered Service requires Authorization ?</label>
+          <select id="hSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+     
+      <div class="questions hidden" id="hYesFollowup">
+        <div class="question-item">
+          <label><p>As the Claim requires Authorization for the rendered Service, Need to Request the Authorization from the Practice.</p><br>
+                <p>.....After the Practice Response, Proceed with the question.....</p><br>
+                <p>Check whether the Practice Provided the Authorization ?</p></label>
+          <select id="lSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+  
+      <div class="questions hidden" id="lYesFollowup">
+        <div class="question-item">
+          <label>Check with the Payer Representative if they can Reprocess the Claim with the Valid Authorization ?</label>
+          <select id="mSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="lNoFollowup">
+        <div class="question-item">
+          <label>Check with the Payer whether they accept Retro Authorization ?</label>
+          <select id="nSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="questions hidden" id="pos11Followup">
+        <div class="question-item">
+          <label>Check whether the patient's plan covers the OON (Out-Of-Network) Benefits for the DOS ?</label>
+          <select id="pos11Select2">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+    
+      <div class="questions hidden" id="gYesFollowup">
+        <div class="question-item">
+          <label><p>As the Claim requires Authorization and the Provider is OON, whereas Patient has OON Benefits. Need to Request the Authorization from the Practice.</p><br>
+                <p>.....After the Practice Response, Proceed with the question.....</p><br>
+                <p>Check whether the Practice Provided the Authorization ?</p>
+          </label>
+        
+          <select id="iSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="questions hidden" id="iYesFollowup">
+        <div class="question-item">
+          <label>Check with the Payer Representative if they can reprocess the claim with the valid authorization?</label>
+          <select id="jSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="iNoFollowup">
+        <div class="question-item">
+          <label>Check with the Payer whether they accept Retro Authorization ?</label>
+          <select id="kSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="questions hidden" id="pos23Question">
+        <div class="question-item">
+          <label>Check with the Payer to Reprocess the Claim ? (As Emergency Services does not require Authorization) </label>
+          <select id="pos23Select">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+    
+      <div class="questions hidden" id="pos23Followup">
+        <div class="question-item">
+          <label>Check with the Payer's Policy whether the Retro-Authorization accepted for the Emergency service ? </label>
+          <select id="pos23FollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="questions hidden" id="pos2122Question">
+        <div class="question-item">
+          <label>Check whether the Hospital Claim is on File ?</label>
+          <select id="pos2122Select">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+     
+      <div class="questions hidden" id="pos2122Followup">
+        <div class="question-item">
+          <label>Check whether the Hospital Claim billed with the Authorization Number ?</label>
+          <select id="pos2122FollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="questions hidden" id="pos2122SNoFollowup">
+        <div class="question-item">
+          <label>
+            <p>As there is No Hospital Claim on File, Tag the claim to the Coding Review.</p><br>
+            <p>.....After the Coder Response, Proceed with the next question.....</p><br>
+            <p>Check whether the coding team suggested for the claim corrections ?</p>
+
+          </label>
+          <select id="pos2122SNoFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+    
+      <div class="questions hidden" id="pos2122SNoFollowupChild">
+        <div class="question-item">
+          <label>Check whether the rendered service require Authorization ?</label>
+          <select id="pos2122SNoFollowupChildSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="pos2122SNoFollowupChildYes">
+        <div class="question-item">
+          <label><p>As the Authorization is Required for the Service, Need to Request the Authorization from the Practice.</p><br>
+                <p>.....After the Practice Response, Proceed with the question.....</p><br>
+                <p>Check whether the Practice Provided the Authorization ?</p></label>
+          <select id="pos2122SNoFollowupChildYesSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="pos2122SNoFollowupChildYesFollowup">
+        <div class="question-item">
+          <label>Check with the Payer Representative if they can reprocess the claim with the valid Authorization ?</label>
+          <select id="pos2122SNoFollowupChildYesFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="pos2122SNoFollowupChildYesNoFollowup">
+        <div class="question-item">
+          <label>Check with the Payer whether they accept the Retro-Authorization ?</label>
+          <select id="pos2122SNoFollowupChildYesNoFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="pos2122YesFollowup">
+        <div class="question-item">
+          <label>The Hospital Claim billed with the Authorization, Was it Paid ?</label>
+          <select id="pos2122YesFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="pos2122NoFollowup">
+        <div class="question-item">
+          <label>The Hospital Claim billed without Authorization, Was it Paid ?</label>
+          <select id="pos2122NoFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="pos2122YesFollowup2">
+        <div class="question-item">
+          <label>Check with the Payer Representative if they can reprocess the claim with the valid Authorization?</label>
+          <select id="pos2122YesFollowup2Select">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="pos2122UNoFollowup">
+        <div class="question-item">
+          <label><p>As the Authorization is Required for the Service, Need to Request the Authorization from the Practice.</p><br>
+                <p>.....After the Practice Response, Proceed with the question.....</p><br>
+                <p>Check whether the Practice Provided the Authorization ?</p></label>
+          <select id="pos2122UNoFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="pos2122UNoYesFollowup">
+        <div class="question-item">
+          <label>Check with the Payer Representative if they can reprocess the claim with the valid Authorization?</label>
+          <select id="pos2122UNoYesFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="pos2122UNoNoFollowup">
+        <div class="question-item">
+          <label>Check with the Payer whether they accept the Retro-Authorization ?</label>
+          <select id="pos2122UNoNoFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+
+      <div class="questions hidden" id="pos2122VNoFollowup">
+        <div class="question-item">
+          <label><p>As the Authorization is Required for the Service, Need to Request the Authorization from the Practice.</p><br>
+                <p>.....After the Practice Response, Proceed with the question.....</p><br>
+                <p>Check whether the Practice Provided the Authorization ?</p></label>
+          <select id="pos2122VNoFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="boyYesFollowup">
+        <div class="question-item">
+          <label>Check with the Payer Representative if they can reprocess the claim with the valid Authorization ?</label>
+          <select id="boyYesFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="questions hidden" id="boyNoFollowup">
+        <div class="question-item">
+          <label>Check with the Payer whether they accept the Retro-Authorization ?</label>
+          <select id="boyNoFollowupSelect">
+            <option value="">-- Select an option --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="binfobox">
+        <div class="info-title">The Claim was submitted with the Valid Authorization for the DOS, 
+          Need to Reproces the Claim. (If the payer does not accept for the reprocess, need to appeal the 
+          claim with the valid Documents.)
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="dyesinfobox">
+        <div class="info-title">The Valid Authorization is available in the System, Need to reprocess the claim.
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="dnoinfobox">
+        <div class="info-title">The Valid Authorization is Available in the System, Need to Update
+            the claim with the Authorization and submit a Corrected Claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">CC-E</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="hnoinfobox">
+        <div class="info-title">The Provider is In-Network and the Rendered Service does not 
+          require Authorization, Need to Reprocess the Claim. (If Insurance denies to reprocess, Need 
+          to appeal the claim with the valid Documents.)
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="gnoinfobox">
+        <div class="info-title">The Provider is OON (Out-of-Network) and Patient's Plan does not
+          have OON Benefits, Need to bill the claim to the Patient (Patient Responsibility)
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">BLD-PT</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="qyesinfobox">
+        <div class="info-title">The Emergency Services does not require Authorization,
+          Need to Reprocess the Claim.
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="pnoinfobox">
+        <div class="info-title">The Valid Authorization is Available, Need to Update
+            the claim with the Authorization and submit a Corrected Claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">CC-E</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="pyesinfobox">
+        <div class="info-title">The Valid Authorization is available, Need to reprocess the claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="ryesinfobox">
+        <div class="info-title">The Payer accepts Retro-Authorization for the Emergency Services, Tag
+          the claim to the Practice for Retro-Authorization Request.
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">ST-PRACTICE REV</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="rnoinfobox">
+        <div class="info-title">The Payer does not accept Retro-Authorization for Emergency Service,
+          Need to appeal the claim with the Necessary Documents.
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">APPL-M FIRST LEVEL</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="jyesinfobox">
+        <div class="info-title">The Valid Authorization is available, Need to reprocess the claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="jnoinfobox">
+        <div class="info-title">The Valid Authorization is Available, Need to Update
+            the claim with the Authorization and submit a Corrected Claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">CC-E</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="kyesinfobox">
+        <div class="info-title">The Payer accepts Retro-Authorization, Need to tag the claim
+          to the Practice for the Retro-Authorization Request.
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">ST-PRACTICE REV</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="knoinfobox">
+        <div class="info-title">The Payer does not accept Retro-Authorization, Need to
+          appeal the claim with the documents that support Medical Necessity.
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">APPL-M FIRST LEVEL</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="myesinfobox">
+        <div class="info-title">The Valid Authorization is available, Need to reprocess the claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="mnoinfobox">
+        <div class="info-title">The Valid Authorization is Available, Need to Update
+            the claim with the Authorization and submit a Corrected Claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">CC-E</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="nyesinfobox">
+        <div class="info-title">The Payer accepts Retro-Authorization, Need to tag the claim
+          to the Practice for the Retro-Authorization Request.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">ST-PRACTICE REV</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="nnoinfobox">
+        <div class="info-title">The Payer does not accept Retro-Authorization, Need to
+          appeal the claim with the documents that support Medical Necessity.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">APPL-M FIRST LEVEL</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="vyesinfobox">
+        <div class="info-title">The Hospital Claim Paid without Authorization, Need to Reprocess
+          the claim as Authorization is not required for the Service. 
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="antyesinfobox">
+        <div class="info-title">As per the Coder Corrections, Need to do Necessary
+          changes and submit a Corrected Claim. 
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">CC-E</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="eggnoinfobox">
+        <div class="info-title">The Service does not require Authorization, 
+          Need to Reprocess the Claim. (If the Insurance refuses to reprocess the claim, then Need to appeal 
+          with valid Documents.)
+        </div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="wyesinfobox">
+        <div class="info-title">The Valid Authorization is available, Need to reprocess the claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="wnoinfobox">
+        <div class="info-title">The Valid Authorization is Available, Need to Update
+            the claim with the Authorization and submit a Corrected Claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">CC-E</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="yyesinfobox">
+        <div class="info-title">The Valid Authorization is available, Need to reprocess the claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="ynoinfobox">
+        <div class="info-title">The Valid Authorization is Available, Need to Update
+            the claim with the Authorization and submit a Corrected Claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">CC-E</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="zyesinfobox">
+        <div class="info-title">The Payer accepts Retro-Authorization, Need to tag the claim
+          to the Practice for the Retro-Authorization Request.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">ST-PRACTICE REV</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="znoinfobox">
+        <div class="info-title">The Payer does not accept Retro-Authorization, Need to
+          appeal the claim with the documents that support Medical Necessity.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">APPL-M FIRST LEVEL</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="catyesinfobox">
+        <div class="info-title">The Valid Authorization is available, Need to reprocess the claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="catnoinfobox">
+        <div class="info-title">The Valid Authorization is Available, Need to Update
+            the claim with the Authorization and submit a Corrected Claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">CC-E</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="dogyesinfobox">
+        <div class="info-title">The Payer accepts Retro-Authorization, Need to tag the claim
+          to the Practice for the Retro-Authorization Request.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">ST-PRACTICE REV</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="dognoinfobox">
+        <div class="info-title">The Payer does not accept Retro-Authorization, Need to
+          appeal the claim with the documents that support Medical Necessity.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">APPL-M FIRST LEVELr</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="lilyyesinfobox">
+        <div class="info-title">The Valid Authorization is available, Need to reprocess the claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">REPROCESS</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="lilynoinfobox">
+        <div class="info-title">The Valid Authorization is Available, Need to Update
+            the claim with the Authorization and submit a Corrected Claim.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">CC-E</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="hutyesinfobox">
+        <div class="info-title">The Payer accepts Retro-Authorization, Need to tag the claim
+          to the Practice for the Retro-Authorization Request.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">ST-PRACTICE REV</span></p>
+        </div>
+      </div>
+
+      <div class="info-box hidden" id="hutnoinfobox">
+        <div class="info-title">The Payer does not accept Retro-Authorization, Need to
+          appeal the claim with the documents that support Medical Necessity.</div>
+        <div class="codes">
+          <p><b>Status Code:</b> <span id="statusCode">AUTH</span></p>
+          <p><b>Action Code:</b> <span id="actionCode">APPL-M FIRST LEVEL</span></p>
+        </div>
+      </div>
+
     </div>
   </main>
 
   <footer>Create Customer Delight</footer>
 
-  <script>
-    const posDropdown = document.getElementById("options");
-    const pos11Section = document.getElementById("pos11Questions");
-    const pos21Section = document.getElementById("pos21Questions");
-
-    const providerOONSelect = document.getElementById("providerOONSelect");
-    const pos11YesFollowUp = document.getElementById("pos11YesFollowUp");
-    const pos11NoFollowUp = document.getElementById("pos11NoFollowUp");
-
+<script>
     const claimAuthSelect = document.getElementById("claimAuthSelect");
-    const followUpYes = document.getElementById("followUpYes");
-    const followUpNo = document.getElementById("followUpNo");
+    const yesFollowup = document.getElementById("yesFollowup");
+    const noFollowup = document.getElementById("noFollowup");
+    const bSelect = document.getElementById("bSelect");
+    const oSelect = document.getElementById("oSelect");
+    const cSelect = document.getElementById("cSelect");
+    const dSelect = document.getElementById("dSelect");
+    const pSelect = document.getElementById("pSelect");
+    const bNoFollowup = document.getElementById("bNoFollowup");
+    const cFollowup = document.getElementById("cFollowup");
+    const oYesFollowup = document.getElementById("oYesFollowup");
+    const oNoScrollBox = document.getElementById("oNoScrollBox");
+    const posSelect = document.getElementById("posSelect");
 
-    const hospitalClaimPaid = document.getElementById("hospitalClaimPaid");
-    const hospitalClaimNotPaidInfo = document.getElementById("hospitalClaimNotPaidInfo");
-    const paidYesFollowUp = document.getElementById("paidYesFollowUp");
+    const pos11Question = document.getElementById("pos11Question");
+    const pos11Select1 = document.getElementById("pos11Select1");
+    const pos11Followup = document.getElementById("pos11Followup");
+    const pos11Select2 = document.getElementById("pos11Select2");
 
-    const authSameSelect = document.getElementById("authSameSelect");
-    const authSameInfo = document.getElementById("authSameInfo");
-    const authNotSameInfo = document.getElementById("authNotSameInfo");
+    const fNoFollowup = document.getElementById("fNoFollowup");
+    const hSelect = document.getElementById("hSelect");
+    const hYesFollowup = document.getElementById("hYesFollowup");
+    const lSelect = document.getElementById("lSelect");
+    const lYesFollowup = document.getElementById("lYesFollowup");
+    const lNoFollowup = document.getElementById("lNoFollowup");
+    const mSelect = document.getElementById("mSelect");
+    const nSelect = document.getElementById("nSelect");
 
-    const followUpNoSelect = document.getElementById("hospitalClaimOnFile");
-    const hospitalClaimNotOnFileInfo = document.getElementById("hospitalClaimNotOnFileInfo");
+    const gYesFollowup = document.getElementById("gYesFollowup");
+    const iSelect = document.getElementById("iSelect");
+    const iYesFollowup = document.getElementById("iYesFollowup");
+    const iNoFollowup = document.getElementById("iNoFollowup");
+    const jSelect = document.getElementById("jSelect");
+    const kSelect = document.getElementById("kSelect");
 
-    const hospitalClaimApprovedQuestion = document.getElementById("hospitalClaimApprovedQuestion");
-    const hospitalClaimOnFileSelect = document.getElementById("hospitalClaimOnFile");
+    const pos23Question = document.getElementById("pos23Question");
+    const pos23Select = document.getElementById("pos23Select");
+    const pos23Followup = document.getElementById("pos23Followup");
+    const pos23FollowupSelect = document.getElementById("pos23FollowupSelect");
 
-    const abcFollowUpQuestion = document.getElementById("abcFollowUpQuestion");
-    const abcFollowUpSelect = document.getElementById("abcFollowUpSelect");
-    const abcNoInfo = document.getElementById("abcNoInfo");
-    const hospitalClaimApprovedSelect = document.getElementById("hospitalClaimApprovedSelect");
+    const pos2122Question = document.getElementById("pos2122Question");
+    const pos2122Select = document.getElementById("pos2122Select");
+    const pos2122Followup = document.getElementById("pos2122Followup");
+    const pos2122FollowupSelect = document.getElementById("pos2122FollowupSelect");
 
-    const xyzYesInfo = document.getElementById("xyzYesInfo");
-    const xyzNoInfo = document.getElementById("xyzNoInfo");
+    const pos2122SNoFollowup = document.getElementById("pos2122SNoFollowup");
+    const pos2122SNoFollowupSelect = document.getElementById("pos2122SNoFollowupSelect");
 
-    function hideAllPOS21Followups() {
-      followUpYes.style.display = "none";
-      followUpNo.style.display = "none";
-      paidYesFollowUp.style.display = "none";
-      hospitalClaimNotPaidInfo.style.display = "none";
-      authSameInfo.style.display = "none";
-      authNotSameInfo.style.display = "none";
-      hospitalClaimNotOnFileInfo.style.display = "none";
-      hospitalClaimApprovedQuestion.style.display = "none";
-      abcFollowUpQuestion.style.display = "none";
-      abcNoInfo.style.display = "none";
-      xyzYesInfo.style.display = "none";
-      xyzNoInfo.style.display = "none";
+    const pos2122SNoFollowupChild = document.getElementById("pos2122SNoFollowupChild");
+    const pos2122SNoFollowupChildSelect = document.getElementById("pos2122SNoFollowupChildSelect");
 
-      hospitalClaimPaid.value = "";
-      authSameSelect.value = "";
-      followUpNoSelect.value = "";
-      hospitalClaimApprovedQuestion.querySelector("select").value = "";
-      abcFollowUpSelect.value = "";
-      hospitalClaimApprovedSelect.value = "";
+    const pos2122SNoFollowupChildYes = document.getElementById("pos2122SNoFollowupChildYes");
+    const pos2122SNoFollowupChildYesSelect = document.getElementById("pos2122SNoFollowupChildYesSelect");
+
+    const pos2122SNoFollowupChildYesFollowup = document.getElementById("pos2122SNoFollowupChildYesFollowup");
+    const pos2122SNoFollowupChildYesFollowupSelect = document.getElementById("pos2122SNoFollowupChildYesFollowupSelect");
+
+    const pos2122SNoFollowupChildYesNoFollowup = document.getElementById("pos2122SNoFollowupChildYesNoFollowup");
+    const pos2122SNoFollowupChildYesNoFollowupSelect = document.getElementById("pos2122SNoFollowupChildYesNoFollowupSelect");
+
+    const pos2122YesFollowup = document.getElementById("pos2122YesFollowup");
+    const pos2122YesFollowupSelect = document.getElementById("pos2122YesFollowupSelect");
+
+    const pos2122NoFollowup = document.getElementById("pos2122NoFollowup");
+    const pos2122NoFollowupSelect = document.getElementById("pos2122NoFollowupSelect");
+
+    const pos2122YesFollowup2 = document.getElementById("pos2122YesFollowup2");
+    const pos2122YesFollowup2Select = document.getElementById("pos2122YesFollowup2Select");
+
+    const pos2122UNoFollowup = document.getElementById("pos2122UNoFollowup");
+    const pos2122UNoFollowupSelect = document.getElementById("pos2122UNoFollowupSelect");
+
+    const pos2122UNoYesFollowup = document.getElementById("pos2122UNoYesFollowup");
+    const pos2122UNoYesFollowupSelect = document.getElementById("pos2122UNoYesFollowupSelect");
+
+    const pos2122UNoNoFollowup = document.getElementById("pos2122UNoNoFollowup");
+    const pos2122UNoNoFollowupSelect = document.getElementById("pos2122UNoNoFollowupSelect");
+
+    const pos2122VNoFollowup = document.getElementById("pos2122VNoFollowup");
+    const pos2122VNoFollowupSelect = document.getElementById("pos2122VNoFollowupSelect");
+
+    const boyYesFollowup = document.getElementById("boyYesFollowup");
+    const boyYesFollowupSelect = document.getElementById("boyYesFollowupSelect");
+
+    const boyNoFollowup = document.getElementById("boyNoFollowup");
+    const boyNoFollowupSelect = document.getElementById("boyNoFollowupSelect");
+
+    const binfobox = document.getElementById("binfobox");
+    const dyesinfobox = document.getElementById("dyesinfobox");
+    const dnoinfobox = document.getElementById("dnoinfobox");
+    const hnoinfobox = document.getElementById("hnoinfobox");
+    const gnoinfobox = document.getElementById("gnoinfobox");
+    const qyesinfobox = document.getElementById("qyesinfobox");
+    const pnoinfobox = document.getElementById("pnoinfobox");
+    const pyesinfobox = document.getElementById("pyesinfobox");
+    const ryesinfobox = document.getElementById("ryesinfobox");
+    const rnoinfobox = document.getElementById("rnoinfobox");
+    const jyesinfobox = document.getElementById("jyesinfobox");
+    const jnoinfobox = document.getElementById("jnoinfobox");
+    const kyesinfobox = document.getElementById("kyesinfobox");
+    const knoinfobox = document.getElementById("knoinfobox");
+    const myesinfobox = document.getElementById("myesinfobox");
+    const mnoinfobox = document.getElementById("mnoinfobox");
+    const nyesinfobox = document.getElementById("nyesinfobox");
+    const nnoinfobox = document.getElementById("nnoinfobox");
+    const vyesinfobox = document.getElementById("vyesinfobox");
+    const antyesinfobox = document.getElementById("antyesinfobox");
+    const eggnoinfobox = document.getElementById("eggnoinfobox");
+    const wyesinfobox = document.getElementById("wyesinfobox");
+    const wnoinfobox = document.getElementById("wnoinfobox");
+    const yyesinfobox = document.getElementById("yyesinfobox");
+    const ynoinfobox = document.getElementById("ynoinfobox");
+    const zyesinfobox = document.getElementById("zyesinfobox");
+    const znoinfobox = document.getElementById("znoinfobox");
+    const catyesinfobox = document.getElementById("catyesinfobox");
+    const catnoinfobox = document.getElementById("catnoinfobox");
+    const dogyesinfobox = document.getElementById("dogyesinfobox");
+    const dognoinfobox = document.getElementById("dognoinfobox");
+    const lilyyesinfobox = document.getElementById("lilyyesinfobox");
+    const lilynoinfobox = document.getElementById("lilynoinfobox");
+    const hutyesinfobox = document.getElementById("hutyesinfobox");
+    const hutnoinfobox = document.getElementById("hutnoinfobox");
+
+    function showAndScroll(element) {
+      if (!element) return;
+      element.classList.remove("hidden");
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    function hide(element) {
+      if (!element) return;
+      element.classList.add("hidden");
+    }
+    function resetSelects(...selects) {
+      selects.forEach(s => { if (s) s.value = ""; });
     }
 
-    posDropdown.addEventListener("change", function () {
-      pos11Section.style.display = this.value === "POS11" ? "block" : "none";
-      pos21Section.style.display = this.value === "POS21" ? "block" : "none";
-      claimAuthSelect.value = "";
-      hideAllPOS21Followups();
-    });
-
-    // POS 11 follow-up logic
-    providerOONSelect.addEventListener("change", function () {
-      pos11YesFollowUp.style.display = "none";
-      pos11NoFollowUp.style.display = "none";
-      if (this.value === "Yes") {
-        pos11YesFollowUp.style.display = "flex";
-      } else if (this.value === "No") {
-        pos11NoFollowUp.style.display = "flex";
-      }
-    });
-
     claimAuthSelect.addEventListener("change", function () {
-      hideAllPOS21Followups();
+      hide(yesFollowup); hide(noFollowup); hide(bNoFollowup); hide(cFollowup);
+      hide(oYesFollowup); hide(oNoScrollBox); hide(posSelect);
+      hide(pos11Question); hide(pos11Followup);
+      hide(fNoFollowup); hide(gYesFollowup);
+      hide(hYesFollowup); hide(lYesFollowup); hide(lNoFollowup);
+      hide(iYesFollowup); hide(iNoFollowup);
+      hide(pos23Question); hide(pos23Followup);
+      hide(pos2122Question); hide(pos2122Followup); hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes);
+      hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup); hide(pos2122YesFollowup); hide(pos2122NoFollowup);
+      hide(pos2122YesFollowup2); hide(pos2122UNoFollowup); hide(pos2122UNoYesFollowup); hide(pos2122UNoNoFollowup);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup); hide(binfobox); hide(dyesinfobox); hide(dnoinfobox); hide(hnoinfobox); hide(gnoinfobox); hide(qyesinfobox);
+      hide(pyesinfobox); hide(pnoinfobox); hide(ryesinfobox); hide(rnoinfobox); hide(jyesinfobox); hide(jnoinfobox); hide(kyesinfobox); hide(knoinfobox);
+      hide(myesinfobox);hide(mnoinfobox); hide(nyesinfobox);hide(nnoinfobox); hide(vyesinfobox); hide(antyesinfobox); hide(eggnoinfobox);
+      hide(wyesinfobox); hide(wnoinfobox); hide(yyesinfobox); hide(ynoinfobox); hide(zyesinfobox); hide(znoinfobox); hide(catyesinfobox); hide(catnoinfobox); hide(dogyesinfobox); hide(dognoinfobox);
+      hide(lilyyesinfobox); hide(lilynoinfobox); hide(hutyesinfobox); hide(hutnoinfobox);
+
+      resetSelects(
+        bSelect, oSelect, cSelect, dSelect, pSelect, posSelect,
+        pos11Select1, pos11Select2, hSelect, lSelect, mSelect, nSelect,
+        iSelect, jSelect, kSelect, pos23Select, pos23FollowupSelect,
+        pos2122Select, pos2122FollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect, pos2122YesFollowupSelect, pos2122NoFollowupSelect,
+        pos2122YesFollowup2Select, pos2122UNoFollowupSelect, pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect,
+        pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect
+      );
+
       if (this.value === "Yes") {
-        followUpYes.style.display = "flex";
+        showAndScroll(yesFollowup);
       } else if (this.value === "No") {
-        followUpNo.style.display = "flex";
+        showAndScroll(noFollowup);
       }
     });
 
-    hospitalClaimPaid.addEventListener("change", function () {
-      hospitalClaimNotPaidInfo.style.display = "none";
-      paidYesFollowUp.style.display = "none";
-      authSameInfo.style.display = "none";
-      authNotSameInfo.style.display = "none";
-      authSameSelect.value = "";
+    bSelect.addEventListener("change", function () {
+      hide(bNoFollowup); hide(cFollowup); hide(posSelect);hide(oNoScrollBox); hide(bNoFollowup); hide(cFollowup);
+      hide(oYesFollowup); hide(oNoScrollBox); hide(posSelect);
+      hide(pos11Question); hide(pos11Followup);
+      hide(fNoFollowup); hide(gYesFollowup);
+      hide(hYesFollowup); hide(lYesFollowup); hide(lNoFollowup);
+      hide(iYesFollowup); hide(iNoFollowup);
+      hide(pos23Question); hide(pos23Followup);
+      hide(pos2122Question); hide(pos2122Followup); hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes);
+      hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup); hide(pos2122YesFollowup); hide(pos2122NoFollowup);
+      hide(pos2122YesFollowup2); hide(pos2122UNoFollowup); hide(pos2122UNoYesFollowup); hide(pos2122UNoNoFollowup);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup);hide(binfobox); hide(dyesinfobox); hide(dnoinfobox);
+      resetSelects(cSelect, dSelect);
       if (this.value === "Yes") {
-        paidYesFollowUp.style.display = "flex";
+        showAndScroll(binfobox);
       } else if (this.value === "No") {
-        hospitalClaimNotPaidInfo.style.display = "block";
+        showAndScroll(bNoFollowup);
       }
     });
 
-    authSameSelect.addEventListener("change", function () {
-      authSameInfo.style.display = "none";
-      authNotSameInfo.style.display = "none";
+    oSelect.addEventListener("change", function () {
+      hide(oYesFollowup); hide(oNoScrollBox); hide(posSelect);
+      hide(pos11Question); hide(pos11Followup);
+      hide(fNoFollowup); hide(gYesFollowup);
+      hide(hYesFollowup); hide(lYesFollowup); hide(lNoFollowup);
+      hide(iYesFollowup); hide(iNoFollowup);
+      hide(pos23Question); hide(pos23Followup);
+      hide(pos2122Question); hide(pos2122Followup); hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes);
+      hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup); hide(pos2122YesFollowup); hide(pos2122NoFollowup);
+      hide(pos2122YesFollowup2); hide(pos2122UNoFollowup); hide(pos2122UNoYesFollowup); hide(pos2122UNoNoFollowup);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup); hide(binfobox); hide(hnoinfobox); hide(gnoinfobox); hide(qyesinfobox);
+      hide(pyesinfobox); hide(pnoinfobox); hide(ryesinfobox); hide(rnoinfobox); hide(jyesinfobox); hide(jnoinfobox); hide(kyesinfobox); hide(knoinfobox);
+      hide(myesinfobox);hide(mnoinfobox); hide(nyesinfobox);hide(nnoinfobox); hide(vyesinfobox); hide(antyesinfobox); hide(eggnoinfobox);
+      hide(wyesinfobox); hide(wnoinfobox); hide(yyesinfobox); hide(ynoinfobox); hide(zyesinfobox); hide(znoinfobox); hide(catyesinfobox); hide(catnoinfobox); hide(dogyesinfobox); hide(dognoinfobox);
+      hide(lilyyesinfobox); hide(lilynoinfobox); hide(hutyesinfobox); hide(hutnoinfobox);
+
+      resetSelects(
+        posSelect, pos11Select1, pos11Select2, hSelect, lSelect, mSelect, nSelect,
+        iSelect, jSelect, kSelect, pos23Select, pos23FollowupSelect, pos2122Select, pos2122FollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect, pos2122YesFollowupSelect, pos2122NoFollowupSelect,
+        pos2122YesFollowup2Select, pos2122UNoFollowupSelect, pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect,
+        pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect, pSelect
+      );
+
       if (this.value === "Yes") {
-        authSameInfo.style.display = "block";
+        showAndScroll(oYesFollowup);
       } else if (this.value === "No") {
-        authNotSameInfo.style.display = "block";
+        showAndScroll(oNoScrollBox);
+        showAndScroll(posSelect); // ✅ Only show POS when o = No
       }
     });
 
-    hospitalClaimOnFileSelect.addEventListener("change", function () {
-      hospitalClaimNotOnFileInfo.style.display = "none";
-      hospitalClaimApprovedQuestion.style.display = "none";
-      abcFollowUpQuestion.style.display = "none";
-      abcNoInfo.style.display = "none";
-      xyzYesInfo.style.display = "none";
-      xyzNoInfo.style.display = "none";
+    pSelect.addEventListener("change", function () {
+      hide(oNoScrollBox); hide(posSelect);
+      hide(pos11Question); hide(pos11Followup);
+      hide(fNoFollowup); hide(gYesFollowup);
+      hide(hYesFollowup); hide(lYesFollowup); hide(lNoFollowup);
+      hide(iYesFollowup); hide(iNoFollowup);
+      hide(pos23Question); hide(pos23Followup);
+      hide(pos2122Question); hide(pos2122Followup); hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes);
+      hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup); hide(pos2122YesFollowup); hide(pos2122NoFollowup);
+      hide(pos2122YesFollowup2); hide(pos2122UNoFollowup); hide(pos2122UNoYesFollowup); hide(pos2122UNoNoFollowup);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup); hide(binfobox); hide(hnoinfobox); hide(gnoinfobox); hide(qyesinfobox); hide(pyesinfobox); hide(pnoinfobox);
+
+      resetSelects(
+        posSelect, pos11Select1, pos11Select2, hSelect, lSelect, mSelect, nSelect,
+        iSelect, jSelect, kSelect, pos23Select, pos23FollowupSelect, pos2122Select, pos2122FollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, 
+        pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect, pos2122YesFollowupSelect, pos2122NoFollowupSelect,
+        pos2122YesFollowup2Select, pos2122UNoFollowupSelect, pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect,
+        pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect
+      );
+
+      if (this.value === "Yes") {
+        showAndScroll(pyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(pnoinfobox);
+      }
+    });
+
+    cSelect.addEventListener("change", function () {
+      hide(cFollowup); hide(posSelect);
+      hide(oYesFollowup); hide(oNoScrollBox);
+      hide(pos11Question); hide(pos11Followup);
+      hide(fNoFollowup); hide(gYesFollowup);
+      hide(hYesFollowup); hide(lYesFollowup); hide(lNoFollowup);
+      hide(iYesFollowup); hide(iNoFollowup);
+      hide(pos23Question); hide(pos23Followup);
+      hide(pos2122Question); hide(pos2122Followup); hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes);
+      hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup); hide(pos2122YesFollowup); hide(pos2122NoFollowup);
+      hide(pos2122YesFollowup2); hide(pos2122UNoFollowup); hide(pos2122UNoYesFollowup); hide(pos2122UNoNoFollowup);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup); hide(binfobox); hide(dyesinfobox); hide(dnoinfobox);
+
+      resetSelects(
+        posSelect, pos11Select1, pos11Select2, hSelect, lSelect, mSelect, nSelect,
+        iSelect, jSelect, kSelect, pos23Select, pos23FollowupSelect, pos2122Select, pos2122FollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect, pos2122YesFollowupSelect, pos2122NoFollowupSelect,
+        pos2122YesFollowup2Select, pos2122UNoFollowupSelect, pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect,
+        pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect
+      );
+
+      if (this.value === "Yes") {
+        showAndScroll(cFollowup);
+      } else if (this.value === "No") {
+        showAndScroll(oNoScrollBox);
+        showAndScroll(posSelect); // ✅ Only show POS when c = No
+      }
+    });
+
+    dSelect.addEventListener("change", function () {
+      hide(posSelect);
+      hide(oYesFollowup); hide(oNoScrollBox);
+      hide(pos11Question); hide(pos11Followup);
+      hide(fNoFollowup); hide(gYesFollowup);
+      hide(hYesFollowup); hide(lYesFollowup); hide(lNoFollowup);
+      hide(iYesFollowup); hide(iNoFollowup);
+      hide(pos23Question); hide(pos23Followup);
+      hide(pos2122Question); hide(pos2122Followup); hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes);
+      hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup); hide(pos2122YesFollowup); hide(pos2122NoFollowup);
+      hide(pos2122YesFollowup2); hide(pos2122UNoFollowup); hide(pos2122UNoYesFollowup); hide(pos2122UNoNoFollowup);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup); hide(binfobox); hide(dyesinfobox);hide(dnoinfobox);
+
+      resetSelects(
+        posSelect, pos11Select1, pos11Select2, hSelect, lSelect, mSelect, nSelect,
+        iSelect, jSelect, kSelect, pos23Select, pos23FollowupSelect, pos2122Select, pos2122FollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect, pos2122YesFollowupSelect, pos2122NoFollowupSelect,
+        pos2122YesFollowup2Select, pos2122UNoFollowupSelect, pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect,
+        pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect
+      );
+
+      if (this.value === "Yes") {
+
+        showAndScroll(dyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(dnoinfobox); 
+      }
+    });
+
+    
+    posSelect.addEventListener("change", function () {
+      hide(pos11Question); hide(pos11Followup);
+      hide(fNoFollowup); hide(gYesFollowup);
+      hide(hYesFollowup); hide(lYesFollowup); hide(lNoFollowup);
+      hide(iYesFollowup); hide(iNoFollowup);
+      hide(pos23Question); hide(pos23Followup);
+      hide(pos2122Question); hide(pos2122Followup); hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes);
+      hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup); hide(pos2122YesFollowup); hide(pos2122NoFollowup);
+      hide(pos2122YesFollowup2); hide(pos2122UNoFollowup); hide(pos2122UNoYesFollowup); hide(pos2122UNoNoFollowup);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup); hide(binfobox); hide(hnoinfobox); hide(gnoinfobox); hide(qyesinfobox);
+      hide(pyesinfobox); hide(pnoinfobox); hide(ryesinfobox); hide(rnoinfobox); hide(jyesinfobox); hide(jnoinfobox); hide(kyesinfobox); hide(knoinfobox);
+      hide(myesinfobox);hide(mnoinfobox); hide(nyesinfobox);hide(nnoinfobox); hide(vyesinfobox); hide(antyesinfobox); hide(eggnoinfobox);
+      hide(wyesinfobox); hide(wnoinfobox); hide(yyesinfobox); hide(ynoinfobox); hide(zyesinfobox); hide(znoinfobox); hide(catyesinfobox); hide(catnoinfobox); hide(dogyesinfobox); hide(dognoinfobox);
+      hide(lilyyesinfobox); hide(lilynoinfobox); hide(hutyesinfobox); hide(hutnoinfobox);
+
+      resetSelects(
+        pos11Select1, pos11Select2, hSelect, lSelect, mSelect, nSelect,
+        iSelect, jSelect, kSelect, pos23Select, pos23FollowupSelect, pos2122Select, pos2122FollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect, pos2122YesFollowupSelect, pos2122NoFollowupSelect,
+        pos2122YesFollowup2Select, pos2122UNoFollowupSelect, pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect,
+        pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect
+      );
+
+      if (this.value === "POS 11") {
+        showAndScroll(pos11Question);
+      } else if (this.value === "POS 23") {
+        showAndScroll(pos23Question);
+      } else if (this.value === "POS 21/22") {
+        showAndScroll(pos2122Question);
+      }
+    });
+
+    
+     pos11Select1.addEventListener("change", function () {
+      hide(pos11Followup); hide(fNoFollowup); hide(gYesFollowup);
+      hide(hYesFollowup); hide(lYesFollowup); hide(lNoFollowup);
+      hide(iYesFollowup); hide(iNoFollowup);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup);
+      hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes); hide(pos2122SNoFollowupChildYesFollowup); 
+      hide(pos2122SNoFollowupChildYesNoFollowup); hide(hnoinfobox); hide(gnoinfobox); hide(jyesinfobox); hide(jnoinfobox);
+      hide(kyesinfobox); hide(knoinfobox); hide(myesinfobox);hide(mnoinfobox);hide(nyesinfobox);hide(nnoinfobox);
+      resetSelects(pos11Select2, hSelect, lSelect, mSelect, nSelect, iSelect, jSelect, kSelect, pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect);
+      if (this.value === "Yes") {
+        showAndScroll(pos11Followup);
+      } else if (this.value === "No") {
+        showAndScroll(fNoFollowup);
+      }
+    });
+
+    hSelect.addEventListener("change", function () {
+      hide(hYesFollowup); hide(lYesFollowup); hide(lNoFollowup); hide(hnoinfobox); hide(myesinfobox);hide(mnoinfobox);
+      resetSelects(lSelect, mSelect, nSelect); hide(nyesinfobox);hide(nnoinfobox);
+      if (this.value === "Yes") {
+        showAndScroll(hYesFollowup);
+      } else if(this.value === "No"){
+        showAndScroll(hnoinfobox);
+      }
+    });
+
+    lSelect.addEventListener("change", function () {
+      hide(lYesFollowup); hide(lNoFollowup); hide(myesinfobox);hide(mnoinfobox); hide(nyesinfobox);hide(nnoinfobox);
+      resetSelects(mSelect, nSelect);
+      if (this.value === "Yes") {
+        showAndScroll(lYesFollowup);
+      } else if (this.value === "No") {
+        showAndScroll(lNoFollowup);
+      }
+    });
+
+    mSelect.addEventListener("change", function () {
+      hide(lNoFollowup); hide(myesinfobox);hide(mnoinfobox);
+      resetSelects
+      if (this.value === "Yes") {
+        showAndScroll(myesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(mnoinfobox);
+      }
+    });
+
+    nSelect.addEventListener("change", function () {
+      hide(myesinfobox);hide(mnoinfobox); hide(nyesinfobox);hide(nnoinfobox);
+      resetSelects
+      if (this.value === "Yes") {
+        showAndScroll(nyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(nnoinfobox);
+      }
+    });
+
+    pos11Select2.addEventListener("change", function () {
+      hide(gYesFollowup);
+      hide(iYesFollowup); hide(iNoFollowup);hide(gnoinfobox); hide(jyesinfobox); hide(jnoinfobox); hide(kyesinfobox); hide(knoinfobox);
+      resetSelects(iSelect, jSelect, kSelect);
+      if (this.value === "Yes") {
+        showAndScroll(gYesFollowup);
+      } else if (this.value === "No") {
+        showAndScroll(gnoinfobox);
+      }
+    });
+
+    iSelect.addEventListener("change", function () {
+      hide(iYesFollowup); hide(iNoFollowup); hide(jyesinfobox); hide(jnoinfobox); hide(kyesinfobox); hide(knoinfobox);
+      resetSelects(jSelect, kSelect);
+      if (this.value === "Yes") {
+        showAndScroll(iYesFollowup);
+      } else if (this.value === "No") {
+        showAndScroll(iNoFollowup);
+      }
+    });
+
+    jSelect.addEventListener("change", function () {
+      hide(iNoFollowup); hide(jyesinfobox); hide(jnoinfobox);
+      resetSelects
+      if (this.value === "Yes") {
+        showAndScroll(jyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(jnoinfobox);
+      }
+    });
+
+    kSelect.addEventListener("change", function () {
+      hide(jyesinfobox); hide(jnoinfobox); hide(kyesinfobox); hide(knoinfobox);
+      resetSelects
+      if (this.value === "Yes") {
+        showAndScroll(kyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(knoinfobox);
+      }
+    });
+
+    pos23Select.addEventListener("change", function () {
+      hide(pos23Followup); hide(qyesinfobox); hide(ryesinfobox); hide(rnoinfobox);
+      resetSelects(pos23FollowupSelect);
+      if (this.value === "Yes") {
+        showAndScroll(qyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(pos23Followup);
+      }
+    });
+
+    pos23FollowupSelect.addEventListener("change", function () {
+      hide(qyesinfobox); hide(ryesinfobox); hide(rnoinfobox);
+      resetSelects
+      if (this.value === "Yes") {
+        showAndScroll(ryesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(rnoinfobox);
+      }
+    });
+
+    pos2122Select.addEventListener("change", function () {
+      hide(pos2122Followup); hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes); hide(pos2122SNoFollowupChildYesFollowup);
+      hide(pos2122SNoFollowupChildYesNoFollowup); hide(pos2122YesFollowup); hide(pos2122NoFollowup); hide(pos2122YesFollowup2); hide(pos2122UNoFollowup); hide(pos2122UNoYesFollowup); hide(pos2122UNoNoFollowup);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup); hide(vyesinfobox); hide(antyesinfobox); hide(eggnoinfobox); hide(wyesinfobox); hide(wnoinfobox);
+      hide(yyesinfobox); hide(ynoinfobox); hide(zyesinfobox); hide(znoinfobox); hide(catyesinfobox); hide(catnoinfobox); hide(dogyesinfobox); hide(dognoinfobox);
+      hide(lilyyesinfobox); hide(lilynoinfobox); hide(hutyesinfobox); hide(hutnoinfobox);
+      resetSelects(pos2122FollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect, pos2122YesFollowupSelect, pos2122NoFollowupSelect, pos2122YesFollowup2Select, pos2122UNoFollowupSelect, pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect, pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect);
+
+      if (this.value === "Yes") {
+        showAndScroll(pos2122Followup);
+      } else if (this.value === "No") {
+        showAndScroll(pos2122SNoFollowup);
+      } else {
+      }
+    });
+
+    pos2122FollowupSelect.addEventListener("change", function () {
+      hide(pos2122YesFollowup);
+      hide(pos2122NoFollowup);
+      hide(pos2122YesFollowup2);
+      hide(pos2122UNoFollowup);
+      hide(pos2122UNoYesFollowup);
+      hide(pos2122UNoNoFollowup); hide(yyesinfobox); hide(ynoinfobox); hide(zyesinfobox); hide(znoinfobox);
+      hide(pos2122VNoFollowup); hide(boyYesFollowup); hide(boyNoFollowup);
+      hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes); hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup);
+      hide(vyesinfobox); hide(wyesinfobox); hide(wnoinfobox); hide(catyesinfobox); hide(catnoinfobox); hide(dogyesinfobox); hide(dognoinfobox);
+      resetSelects(pos2122YesFollowupSelect, pos2122NoFollowupSelect, pos2122YesFollowup2Select, pos2122UNoFollowupSelect, pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect, pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect);
+
+      if (this.value === "Yes") {
+        showAndScroll(pos2122YesFollowup);
+      } else if (this.value === "No") {
+        showAndScroll(pos2122NoFollowup);
+      } else {
+      }
+    });
+
+    pos2122SNoFollowupSelect.addEventListener("change", function () {
+      hide(pos2122SNoFollowupChild);
+      hide(pos2122SNoFollowupChildYes);
+      hide(pos2122SNoFollowupChildYesFollowup);
+      hide(pos2122SNoFollowupChildYesNoFollowup); hide(antyesinfobox); hide(eggnoinfobox); hide(lilyyesinfobox); hide(lilynoinfobox); hide(hutyesinfobox); hide(hutnoinfobox);
+      resetSelects(pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect);
 
       if (this.value === "No") {
-        hospitalClaimNotOnFileInfo.style.display = "block";
+        showAndScroll(pos2122SNoFollowupChild);
       } else if (this.value === "Yes") {
-        hospitalClaimApprovedQuestion.style.display = "flex";
+        showAndScroll(antyesinfobox);
+
       }
     });
 
-    hospitalClaimApprovedSelect.addEventListener("change", function() {
-      abcFollowUpQuestion.style.display = "none";
-      abcNoInfo.style.display = "none";
-      xyzYesInfo.style.display = "none";
-      xyzNoInfo.style.display = "none";
-      abcFollowUpSelect.value = "";
+    pos2122SNoFollowupChildSelect.addEventListener("change", function () {
+      hide(pos2122SNoFollowupChildYes);
+      hide(pos2122SNoFollowupChildYesFollowup);
+      hide(pos2122SNoFollowupChildYesNoFollowup); hide(eggnoinfobox); hide(lilyyesinfobox); hide(lilynoinfobox); hide(hutyesinfobox); hide(hutnoinfobox);
+      resetSelects(pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect);
 
-      if(this.value === "Yes") {
-        abcFollowUpQuestion.style.display = "flex";
-      } else if(this.value === "No") {
-        abcNoInfo.style.display = "block";
+      if (this.value === "Yes") {
+        showAndScroll(pos2122SNoFollowupChildYes);
+      } else if (this.value === "No") {
+        showAndScroll(eggnoinfobox);
       }
     });
 
-    abcFollowUpSelect.addEventListener("change", function() {
-      xyzYesInfo.style.display = "none";
-      xyzNoInfo.style.display = "none";
+    pos2122SNoFollowupChildYesSelect.addEventListener("change", function () {
+      hide(pos2122SNoFollowupChildYesFollowup);
+      hide(pos2122SNoFollowupChildYesNoFollowup); hide(lilyyesinfobox); hide(lilynoinfobox); hide(hutyesinfobox); hide(hutnoinfobox);
+      resetSelects(pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect);
 
-      if(this.value === "Yes") {
-        xyzYesInfo.style.display = "block";
-      } else if(this.value === "No") {
-        xyzNoInfo.style.display = "block";
+      if (this.value === "Yes") {
+        showAndScroll(pos2122SNoFollowupChildYesFollowup);
+      } else if (this.value === "No") {
+        showAndScroll(pos2122SNoFollowupChildYesNoFollowup);
+      } else {
       }
     });
-  </script>
 
+    pos2122SNoFollowupChildYesFollowupSelect.addEventListener("change", function () {
+      hide(pos2122SNoFollowupChildYesNoFollowup); hide(lilyyesinfobox); hide(lilynoinfobox);
+      resetSelects
+
+      if (this.value === "Yes") {
+        showAndScroll(lilyyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(lilynoinfobox);
+      
+      }
+    });
+
+    pos2122SNoFollowupChildYesNoFollowupSelect.addEventListener("change", function () {
+      hide(lilyyesinfobox); hide(lilynoinfobox); hide(hutyesinfobox); hide(hutnoinfobox);
+      resetSelects
+
+      if (this.value === "Yes") {
+        showAndScroll(hutyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(hutnoinfobox);
+      
+      }
+    });
+
+    pos2122YesFollowupSelect.addEventListener("change", function () {
+      hide(pos2122YesFollowup2);
+      hide(pos2122UNoFollowup);
+      hide(pos2122UNoYesFollowup);
+      hide(pos2122UNoNoFollowup); hide(yyesinfobox); hide(ynoinfobox); hide(zyesinfobox); hide(znoinfobox);
+      hide(boyYesFollowup); hide(boyNoFollowup); hide(wyesinfobox); hide(wnoinfobox);
+      hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes); hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup);
+      resetSelects(pos2122YesFollowup2Select, pos2122UNoFollowupSelect, pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect);
+
+      if (this.value === "Yes") {
+        showAndScroll(pos2122YesFollowup2);
+      } else if (this.value === "No") {
+        showAndScroll(pos2122UNoFollowup);
+      } else {
+      }
+    });
+
+    pos2122YesFollowup2Select.addEventListener("change", function () {
+      hide(pos2122UNoFollowup);
+      hide(pos2122UNoYesFollowup);
+      hide(pos2122UNoNoFollowup);
+      hide(boyYesFollowup); hide(boyNoFollowup); hide(wyesinfobox); hide(wnoinfobox);
+      hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes); hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup);
+      resetSelects
+
+      if (this.value === "Yes") {
+        showAndScroll(wyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(wnoinfobox);
+      } else {
+      }
+    });
+
+    pos2122UNoFollowupSelect.addEventListener("change", function () {
+      hide(pos2122UNoYesFollowup);
+      hide(pos2122UNoNoFollowup);
+      hide(boyYesFollowup); hide(boyNoFollowup); hide(yyesinfobox); hide(ynoinfobox); hide(zyesinfobox); hide(znoinfobox);
+      hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes); hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup);
+      resetSelects(pos2122UNoYesFollowupSelect, pos2122UNoNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect);
+
+      if (this.value === "Yes") {
+        showAndScroll(pos2122UNoYesFollowup);
+      } else if (this.value === "No") {
+        showAndScroll(pos2122UNoNoFollowup);
+      } else {
+      }
+    });
+
+    pos2122UNoYesFollowupSelect.addEventListener("change", function () {
+      hide(pos2122UNoNoFollowup);
+      hide(boyYesFollowup); hide(boyNoFollowup); hide(yyesinfobox); hide(ynoinfobox);
+      hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes); hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup);
+      resetSelects 
+
+      if (this.value === "Yes") {
+        showAndScroll(yyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(ynoinfobox);
+      } else {
+      }
+    });
+
+    pos2122UNoNoFollowupSelect.addEventListener("change", function () {
+      hide(pos2122UNoYesFollowup);
+      hide(boyYesFollowup); hide(boyNoFollowup); hide(yyesinfobox); hide(ynoinfobox); hide(zyesinfobox); hide(znoinfobox);
+      hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes); hide(pos2122SNoFollowupChildYesFollowup); hide(pos2122SNoFollowupChildYesNoFollowup);
+      resetSelects 
+
+      if (this.value === "Yes") {
+        showAndScroll(zyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(znoinfobox);
+      } else {
+      }
+    });
+
+    pos2122NoFollowupSelect.addEventListener("change", function () {
+      hide(pos2122VNoFollowup);
+      hide(boyYesFollowup); hide(boyNoFollowup);
+      hide(pos2122SNoFollowup); hide(pos2122SNoFollowupChild); hide(pos2122SNoFollowupChildYes); hide(pos2122SNoFollowupChildYesFollowup); 
+      hide(pos2122SNoFollowupChildYesNoFollowup); hide(vyesinfobox); hide(catyesinfobox); hide(catnoinfobox); hide(dogyesinfobox); hide(dognoinfobox);
+      resetSelects(pos2122VNoFollowupSelect, boyYesFollowupSelect, boyNoFollowupSelect, pos2122SNoFollowupSelect, pos2122SNoFollowupChildSelect, pos2122SNoFollowupChildYesSelect, pos2122SNoFollowupChildYesFollowupSelect, pos2122SNoFollowupChildYesNoFollowupSelect);
+
+      if (this.value === "No") {
+        showAndScroll(pos2122VNoFollowup);
+      } else if (this.value === "Yes") {
+        showAndScroll(vyesinfobox);
+      }
+    });
+
+    pos2122VNoFollowupSelect.addEventListener("change", function () {
+      hide(boyYesFollowup);
+      hide(boyNoFollowup); hide(catyesinfobox); hide(catnoinfobox); hide(dogyesinfobox); hide(dognoinfobox);
+      resetSelects(boyYesFollowupSelect, boyNoFollowupSelect);
+
+      if (this.value === "Yes") {
+        showAndScroll(boyYesFollowup);
+      } else if (this.value === "No") {
+        showAndScroll(boyNoFollowup);
+      } else {
+      }
+    });
+
+    boyYesFollowupSelect.addEventListener("change", function () {
+      
+      hide(boyNoFollowup); hide(catyesinfobox); hide(catnoinfobox);
+      resetSelects
+
+      if (this.value === "Yes") {
+        showAndScroll(catyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(catnoinfobox);
+      } else {
+      }
+    });
+
+    boyNoFollowupSelect.addEventListener("change", function () {
+      hide(catyesinfobox); hide(catnoinfobox); hide(dogyesinfobox); hide(dognoinfobox);
+      resetSelects
+
+      if (this.value === "Yes") {
+        showAndScroll(dogyesinfobox);
+      } else if (this.value === "No") {
+        showAndScroll(dognoinfobox);
+      } else {
+      }
+    });
+
+</script>
 </body>
 </html>
